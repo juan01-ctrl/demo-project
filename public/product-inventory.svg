@@ -1,0 +1,96 @@
+<svg width="1440" height="980" viewBox="0 0 1440 980" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1440" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FAFBFD"/>
+      <stop offset="1" stop-color="#EEF2F7"/>
+    </linearGradient>
+    <linearGradient id="chart" x1="0" y1="0" x2="0" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0071E3" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#0071E3" stop-opacity="0.03"/>
+    </linearGradient>
+    <filter id="shadow" x="140" y="86" width="1160" height="808" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="20"/>
+      <feGaussianBlur stdDeviation="24"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.0666667 0 0 0 0 0.105882 0 0 0 0 0.180392 0 0 0 0.16 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/>
+    </filter>
+  </defs>
+
+  <rect width="1440" height="980" rx="42" fill="url(#bg)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="188" y="114" width="1064" height="712" rx="28" fill="#FFFFFF"/>
+    <rect x="188.5" y="114.5" width="1063" height="711" rx="27.5" stroke="#DCE3EC"/>
+  </g>
+
+  <rect x="188" y="114" width="1064" height="72" rx="28" fill="#F8FAFD"/>
+  <rect x="188.5" y="114.5" width="1063" height="71" rx="27.5" stroke="#E5EBF3"/>
+
+  <circle cx="226" cy="150" r="8" fill="#E8EDF5"/>
+  <circle cx="254" cy="150" r="8" fill="#E8EDF5"/>
+  <circle cx="282" cy="150" r="8" fill="#E8EDF5"/>
+
+  <rect x="330" y="134" width="270" height="32" rx="16" fill="#EEF2F8"/>
+  <text x="350" y="154" fill="#6A7485" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13">Buscar SKU, marca o categoría</text>
+
+  <text x="1040" y="155" fill="#1E2A3C" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600">Stock en tiempo real</text>
+
+  <rect x="220" y="218" width="310" height="184" rx="20" fill="#F9FBFE"/>
+  <rect x="220.5" y="218.5" width="309" height="183" rx="19.5" stroke="#E4EAF3"/>
+  <text x="246" y="256" fill="#6A7485" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13">Facturación mensual</text>
+  <text x="246" y="306" fill="#0D1421" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="36" font-weight="700">AR$ 128.4M</text>
+  <text x="246" y="338" fill="#2D7F4E" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600">+18.6% vs mes anterior</text>
+
+  <rect x="548" y="218" width="310" height="184" rx="20" fill="#F9FBFE"/>
+  <rect x="548.5" y="218.5" width="309" height="183" rx="19.5" stroke="#E4EAF3"/>
+  <text x="574" y="256" fill="#6A7485" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13">Órdenes procesadas</text>
+  <text x="574" y="306" fill="#0D1421" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="36" font-weight="700">12.840</text>
+  <text x="574" y="338" fill="#0071E3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600">92% automáticas</text>
+
+  <rect x="876" y="218" width="340" height="184" rx="20" fill="#0F172A"/>
+  <text x="904" y="256" fill="#A9B4C5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13">Alertas de stock</text>
+  <text x="904" y="306" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="30" font-weight="700">23 SKU críticos</text>
+  <rect x="904" y="328" width="136" height="36" rx="18" fill="#0071E3"/>
+  <text x="932" y="350" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600">Reponer ahora</text>
+
+  <rect x="220" y="430" width="996" height="360" rx="22" fill="#FFFFFF"/>
+  <rect x="220.5" y="430.5" width="995" height="359" rx="21.5" stroke="#E4EAF3"/>
+
+  <text x="252" y="468" fill="#101828" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="650">Inventario por depósito</text>
+  <text x="252" y="492" fill="#6A7485" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13">Buenos Aires • Córdoba • Rosario</text>
+
+  <rect x="252" y="520" width="962" height="238" rx="16" fill="#F8FAFD"/>
+  <rect x="252.5" y="520.5" width="961" height="237" rx="15.5" stroke="#E5EBF3"/>
+
+  <rect x="280" y="548" width="450" height="170" rx="12" fill="url(#chart)"/>
+  <path d="M292 682C336 632 380 654 424 606C467 558 511 582 555 548C598 515 642 532 686 518" stroke="#0071E3" stroke-width="4" stroke-linecap="round"/>
+
+  <g>
+    <rect x="770" y="548" width="414" height="32" rx="10" fill="#FFFFFF"/>
+    <rect x="770.5" y="548.5" width="413" height="31" rx="9.5" stroke="#E3E9F2"/>
+    <text x="788" y="569" fill="#1B2534" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600">MacBook Air M3</text>
+    <text x="1080" y="569" fill="#1B2534" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13">Stock: 148</text>
+  </g>
+  <g>
+    <rect x="770" y="588" width="414" height="32" rx="10" fill="#FFFFFF"/>
+    <rect x="770.5" y="588.5" width="413" height="31" rx="9.5" stroke="#E3E9F2"/>
+    <text x="788" y="609" fill="#1B2534" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600">iPhone 16 Pro 256GB</text>
+    <text x="1080" y="609" fill="#1B2534" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13">Stock: 72</text>
+  </g>
+  <g>
+    <rect x="770" y="628" width="414" height="32" rx="10" fill="#FFFFFF"/>
+    <rect x="770.5" y="628.5" width="413" height="31" rx="9.5" stroke="#E3E9F2"/>
+    <text x="788" y="649" fill="#1B2534" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600">AirPods Pro (2da gen)</text>
+    <text x="1080" y="649" fill="#1B2534" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13">Stock: 314</text>
+  </g>
+  <g>
+    <rect x="770" y="668" width="414" height="32" rx="10" fill="#FFFFFF"/>
+    <rect x="770.5" y="668.5" width="413" height="31" rx="9.5" stroke="#E3E9F2"/>
+    <text x="788" y="689" fill="#1B2534" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600">iPad Air 11\"</text>
+    <text x="1080" y="689" fill="#1B2534" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13">Stock: 96</text>
+  </g>
+</svg>
