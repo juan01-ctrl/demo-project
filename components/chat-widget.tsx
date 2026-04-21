@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 type ChatMessage = {
   role: 'user' | 'assistant';
@@ -92,13 +92,17 @@ export function ChatWidget({ pageContext }: { pageContext: string }) {
           <div ref={messagesContainerRef} className="max-h-[360px] space-y-3 overflow-y-auto p-4">
             {messages.map((m, idx) => (
               <div key={`${m.role}-${idx}`} className={m.role === 'user' ? 'text-right' : 'text-left'}>
-                <p
+                <div
                   className={`inline-block max-w-[92%] rounded-2xl px-3 py-2 text-sm leading-6 ${
                     m.role === 'user' ? 'bg-[#111827] text-white' : 'bg-panel text-text'
-                  }`}
+                  } ${m.role === 'assistant' ? 'whitespace-pre-wrap text-left' : ''}`}
                 >
-                  {m.content}
-                </p>
+                  {m.role === 'assistant' ? (
+                    <FormattedAssistantContent text={m.content} />
+                  ) : (
+                    m.content
+                  )}
+                </div>
               </div>
             ))}
             {loading && <p className="text-xs text-muted">Pensando respuesta...</p>}
@@ -144,6 +148,36 @@ export function ChatWidget({ pageContext }: { pageContext: string }) {
       )}
     </div>
   );
+}
+
+/** Renderiza texto con enlaces Markdown [etiqueta](url) como <a> clickeables (sin mostrar URL larga). */
+function FormattedAssistantContent({ text }: { text: string }) {
+  const re = /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g;
+  const parts: ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let i = 0;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) {
+      parts.push(<span key={`t-${i++}`}>{text.slice(last, m.index)}</span>);
+    }
+    parts.push(
+      <a
+        key={`a-${i++}`}
+        href={m[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-semibold text-[#0071e3] underline decoration-[#0071e3]/40 underline-offset-2 hover:text-[#0058b3]"
+      >
+        {m[1]}
+      </a>
+    );
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) {
+    parts.push(<span key={`t-${i++}`}>{text.slice(last)}</span>);
+  }
+  return <>{parts.length > 0 ? parts : text}</>;
 }
 
 function BotIcon({ className = '' }: { className?: string }) {

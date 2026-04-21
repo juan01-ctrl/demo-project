@@ -302,6 +302,16 @@ export function whatsappHref(message: string) {
   return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
 }
 
+/** Mensaje prellenado para el chat: conversación + contexto de página (API / asistente). */
+export function mensajeWhatsAppChatDesdeContexto(ultimaConsultaUsuario: string, pageContext: string): string {
+  const u = ultimaConsultaUsuario.trim().slice(0, 320);
+  const ctx = pageContext.trim().slice(0, 400);
+  const base = u
+    ? `Hola! Escribo desde el chat de la web de ${WHATSAPP_SITE_NAME}. ${u}`
+    : `Hola! Escribo desde el chat de la web de ${WHATSAPP_SITE_NAME} y quiero consultar con ventas.`;
+  return ctx ? `${base}\n\nReferencia: ${ctx}` : base;
+}
+
 export function buildPageContext(productoActual?: Producto) {
   const resumenProductos = productos
     .map((p) => {
