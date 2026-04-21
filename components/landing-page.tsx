@@ -123,7 +123,7 @@ export function LandingPage() {
               Disponibilidad inmediata, condiciones claras y entrega en todo el país. Comprá directo al importador, sin fricción y con respaldo real.
             </p>
             <div className="animate-reveal mt-10 flex flex-wrap items-center justify-center gap-4">
-              <a href="#destacados" className="rounded-full bg-text px-7 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#1a2330]">
+              <a href="#categorias" className="rounded-full bg-text px-7 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#1a2330]">
                 Ver productos
               </a>
               <a
@@ -139,24 +139,6 @@ export function LandingPage() {
               <p className="rounded-full border border-border bg-white px-4 py-2 text-xs font-semibold tracking-[0.12em] text-[#334155]">+6.000 CLIENTES</p>
               <p className="rounded-full border border-border bg-white px-4 py-2 text-xs font-semibold tracking-[0.12em] text-[#334155]">GARANTÍA VERIFICADA</p>
               <p className="rounded-full border border-border bg-white px-4 py-2 text-xs font-semibold tracking-[0.12em] text-[#334155]">ENVÍOS TODO EL PAÍS</p>
-            </div>
-          </div>
-        </section>
-
-        <section className="border-b border-border/70 bg-[#f7f7f9] py-24">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted">Selección premium</p>
-                <h2 className="mt-3 text-4xl font-semibold leading-tight tracking-[-0.02em] sm:text-5xl">Productos destacados</h2>
-              </div>
-              <p className="max-w-md text-sm leading-7 text-muted">Equipos con mayor demanda y disponibilidad inmediata para entrega en Argentina.</p>
-            </div>
-
-            <div className="grid gap-6 lg:grid-cols-3">
-              {productosPremium.map((item) => (
-                <ProductCard key={`premium-${item.sku}`} item={item} imageHeightClass="h-[238px]" showDescription />
-              ))}
             </div>
           </div>
         </section>
@@ -201,6 +183,21 @@ export function LandingPage() {
 
         <section id="destacados" className="border-y border-border/70 bg-[#f7f7f9] py-24">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="mb-14 border-b border-border/70 pb-14">
+              <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted">Selección premium</p>
+                  <h2 className="mt-3 text-4xl font-semibold leading-tight tracking-[-0.02em] sm:text-5xl">Productos destacados</h2>
+                </div>
+                <p className="max-w-md text-sm leading-7 text-muted">Equipos con mayor demanda y disponibilidad inmediata para entrega en Argentina.</p>
+              </div>
+              <div className="grid gap-6 lg:grid-cols-3">
+                {productosPremium.map((item) => (
+                  <ProductCard key={`premium-${item.sku}`} item={item} imageHeightClass="h-[238px]" showDescription />
+                ))}
+              </div>
+            </div>
+
             <div className="mb-9 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted">Destacados de la semana</p>
