@@ -103,7 +103,7 @@ export function LandingPage() {
             className="pointer-events-none absolute inset-0 z-0"
             style={{
               background:
-                'radial-gradient(46% 36% at 8% 0%, rgba(255, 98, 98, 0.2) 0%, rgba(255, 255, 255, 0) 74%), radial-gradient(44% 34% at 94% 2%, rgba(92, 142, 255, 0.22) 0%, rgba(255, 255, 255, 0) 74%), radial-gradient(36% 22% at 50% 2%, rgba(196, 213, 255, 0.14) 0%, rgba(255, 255, 255, 0) 80%), radial-gradient(28% 18% at 64% 22%, rgba(130, 170, 255, 0.08) 0%, rgba(255, 255, 255, 0) 86%), radial-gradient(24% 16% at 36% 20%, rgba(255, 145, 145, 0.07) 0%, rgba(255, 255, 255, 0) 86%)'
+                'radial-gradient(at 0% 0%, rgba(255, 45, 85, 0.1) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(0, 113, 227, 0.1) 0px, transparent 50%), radial-gradient(at 50% 50%, rgba(255, 255, 255, 1) 0px, transparent 80%)'
             }}
             aria-hidden
           />
