@@ -28,11 +28,16 @@ export type Producto = {
   };
 };
 
-/** Precios tipo "AR$ 3.144.012" → entero en pesos (se ignoran separadores). */
-export function precioStringANumero(precio: string): number {
-  const digits = precio.replace(/\D/g, '');
-  if (!digits) return 0;
-  return parseInt(digits, 10);
+export const WHATSAPP_PHONE = '5491159570977';
+export const WHATSAPP_SITE_NAME = 'Store Demo AR';
+export const WHATSAPP_MSG_GENERIC = `Hola! Estaba viendo la web de ${WHATSAPP_SITE_NAME} y quería hacerles una consulta.`;
+
+export function mensajeConsultaProducto(nombreProducto: string) {
+  return `Hola! Vi ${nombreProducto} en la web de ${WHATSAPP_SITE_NAME} y me gustaría consultar.`;
+}
+
+export function whatsappHref(message: string) {
+  return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
 }
 
 export const promos = [
@@ -49,7 +54,6 @@ export const categorias = [
   { nombre: 'Accesorios', descripcion: 'AirPods, fundas, cargadores y esenciales Apple.' }
 ];
 
-/** Valores internos = `Producto.categoria` (Mac → MacBook). Etiquetas para UI. */
 export const filtroCategoriaOpciones = [
   { value: 'Todas', label: 'Todas' },
   { value: 'iPhone', label: 'iPhone' },
@@ -289,18 +293,6 @@ export const faqs = [
       'Sí. Trabajamos con particulares, profesionales y comercios. Armamos propuestas según volumen, facturación y plazos de entrega.'
   }
 ];
-
-export const WHATSAPP_PHONE = '5491159570977';
-export const WHATSAPP_SITE_NAME = 'Store Demo AR';
-export const WHATSAPP_MSG_GENERIC = `Hola! Estaba viendo la web de ${WHATSAPP_SITE_NAME} y quería hacerles una consulta.`;
-
-export function mensajeConsultaProducto(nombreProducto: string) {
-  return `Hola! Vi ${nombreProducto} en la web de ${WHATSAPP_SITE_NAME} y me gustaría consultar.`;
-}
-
-export function whatsappHref(message: string) {
-  return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
-}
 
 export function buildPageContext(productoActual?: Producto) {
   const resumenProductos = productos

@@ -1,10 +1,11 @@
 'use client';
 
-import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   categorias,
-  mensajeConsultaProducto,
+  filtroCategoriaOpciones,
+  ordenCatalogoOpciones,
+  precioStringANumero,
   productos,
   promos,
   razones,
@@ -12,40 +13,51 @@ import {
   WHATSAPP_MSG_GENERIC,
   whatsappHref
 } from '@/lib/store-data';
+import { CustomSelect } from '@/components/custom-select';
 import { FaqSection } from '@/components/faq-section';
+import { ProductCard } from '@/components/product-card';
+
+type OrdenCatalogo = 'recomendados' | 'precio-asc' | 'precio-desc';
 
 export function LandingPage() {
-  const categoriasFiltro = ['Todas', 'iPhone', 'MacBook', 'iPad', 'Accesorios'] as const;
+  const productosPremium = productos.slice(0, 3);
+  const categoriaImagenes: Record<string, string> = {
+    iPhone: '/products/iphone-1.jpg',
+    MacBook: '/products/mac-1.jpg',
+    iPad: '/products/ipad-1.jpg',
+    Watch: '/products/watch-1.png',
+    Accesorios: '/products/airpods-1.jpg'
+  };
   const [busqueda, setBusqueda] = useState('');
   const [filtroCategoria, setFiltroCategoria] = useState('Todas');
   const [soloConStock, setSoloConStock] = useState(false);
-  const [categoriaAbierta, setCategoriaAbierta] = useState(false);
-  const categoriaRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const onClickOutside = (event: MouseEvent) => {
-      if (!categoriaRef.current) return;
-      if (!categoriaRef.current.contains(event.target as Node)) {
-        setCategoriaAbierta(false);
-      }
-    };
-    document.addEventListener('mousedown', onClickOutside);
-    return () => document.removeEventListener('mousedown', onClickOutside);
-  }, []);
+  const [orden, setOrden] = useState<OrdenCatalogo>('recomendados');
 
   const productosFiltrados = useMemo(() => {
     const q = busqueda.trim().toLowerCase();
-    return productos.filter((item) => {
+    const filtrados = productos.filter((item) => {
       const matchTexto = q.length === 0 || item.nombre.toLowerCase().includes(q) || item.sku.toLowerCase().includes(q);
       const matchCategoria = filtroCategoria === 'Todas' || item.categoria === filtroCategoria;
       const matchStock = !soloConStock || item.stock > 0;
       return matchTexto && matchCategoria && matchStock;
     });
-  }, [busqueda, filtroCategoria, soloConStock]);
+
+    const ordenar = [...filtrados];
+    switch (orden) {
+      case 'precio-asc':
+        ordenar.sort((a, b) => precioStringANumero(a.precio) - precioStringANumero(b.precio));
+        break;
+      case 'precio-desc':
+        ordenar.sort((a, b) => precioStringANumero(b.precio) - precioStringANumero(a.precio));
+        break;
+      default:
+        ordenar.sort((a, b) => productos.indexOf(a) - productos.indexOf(b));
+    }
+    return ordenar;
+  }, [busqueda, filtroCategoria, soloConStock, orden]);
 
   const aplicarCategoria = (categoria: string) => {
     setFiltroCategoria(categoria);
-    setCategoriaAbierta(false);
     const target = document.getElementById('destacados');
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -87,9 +99,17 @@ export function LandingPage() {
 
       <main id="inicio">
         <section className="relative overflow-hidden border-b border-border/70 bg-white">
-          <div className="pointer-events-none absolute -left-16 top-12 z-0 h-64 w-64 rounded-full bg-black/14 blur-[76px]" aria-hidden />
-          <div className="pointer-events-none absolute right-[-40px] top-24 z-0 h-72 w-72 rounded-full bg-black/12 blur-[84px]" aria-hidden />
-          <div className="pointer-events-none absolute left-1/2 top-[-90px] z-0 h-64 w-[520px] -translate-x-1/2 rounded-full bg-black/10 blur-[92px]" aria-hidden />
+          <div
+            className="pointer-events-none absolute inset-0 z-0"
+            style={{
+              background:
+                'radial-gradient(46% 36% at 8% 0%, rgba(255, 98, 98, 0.2) 0%, rgba(255, 255, 255, 0) 74%), radial-gradient(44% 34% at 94% 2%, rgba(92, 142, 255, 0.22) 0%, rgba(255, 255, 255, 0) 74%), radial-gradient(36% 22% at 50% 2%, rgba(196, 213, 255, 0.14) 0%, rgba(255, 255, 255, 0) 80%), radial-gradient(28% 18% at 64% 22%, rgba(130, 170, 255, 0.08) 0%, rgba(255, 255, 255, 0) 86%), radial-gradient(24% 16% at 36% 20%, rgba(255, 145, 145, 0.07) 0%, rgba(255, 255, 255, 0) 86%)'
+            }}
+            aria-hidden
+          />
+          <div className="pointer-events-none absolute -left-14 top-10 z-0 h-56 w-56 rounded-full bg-black/10 blur-[74px]" aria-hidden />
+          <div className="pointer-events-none absolute right-[-36px] top-20 z-0 h-64 w-64 rounded-full bg-black/9 blur-[80px]" aria-hidden />
+          <div className="pointer-events-none absolute left-1/2 top-[-84px] z-0 h-56 w-[480px] -translate-x-1/2 rounded-full bg-black/8 blur-[90px]" aria-hidden />
           <div className="relative z-10 mx-auto max-w-7xl px-6 pb-16 pt-20 text-center lg:px-10 lg:pb-24 lg:pt-28">
             <p className="animate-reveal inline-flex rounded-full border border-border bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
               Importador Apple en Argentina
@@ -123,20 +143,56 @@ export function LandingPage() {
           </div>
         </section>
 
+        <section className="border-b border-border/70 bg-[#f7f7f9] py-24">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted">Selección premium</p>
+                <h2 className="mt-3 text-4xl font-semibold leading-tight tracking-[-0.02em] sm:text-5xl">Productos destacados</h2>
+              </div>
+              <p className="max-w-md text-sm leading-7 text-muted">Equipos con mayor demanda y disponibilidad inmediata para entrega en Argentina.</p>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-3">
+              {productosPremium.map((item) => (
+                <ProductCard key={`premium-${item.sku}`} item={item} imageHeightClass="h-[238px]" showDescription />
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="categorias" className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
           <div className="mb-12 rounded-[1.8rem] border border-border bg-white p-7 shadow-card lg:p-10">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted">Catálogo importado</p>
             <h2 className="mt-3 text-4xl font-semibold leading-tight tracking-[-0.02em] sm:text-5xl">Elegí la línea Apple ideal para vos.</h2>
             <p className="mt-4 max-w-3xl text-base leading-7 text-muted">Selección curada de productos originales con disponibilidad local, precios claros y atención comercial personalizada.</p>
           </div>
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-6">
             {categorias.map((categoria, idx) => (
-              <article key={categoria.nombre} className="group rounded-2xl border border-border bg-white p-5 shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-elevated">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Línea {idx + 1}</p>
-                <h3 className="text-xl font-semibold tracking-[-0.01em]">{categoria.nombre}</h3>
-                <p className="mt-2 min-h-[72px] text-sm leading-6 text-muted">{categoria.descripcion}</p>
-                <button type="button" onClick={() => aplicarCategoria(categoria.nombre)} className="mt-4 text-sm font-semibold text-accent transition group-hover:translate-x-1">
-                  Ver catálogo →
+              <article
+                key={categoria.nombre}
+                className={`group overflow-hidden rounded-[1.85rem] border border-border bg-[#f3f4f6] p-5 shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-elevated ${
+                  idx < 2 ? 'lg:col-span-3' : 'lg:col-span-2'
+                }`}
+              >
+                <div className={`flex items-center justify-center rounded-[1.2rem] bg-white p-4 ${idx < 2 ? 'h-[280px]' : 'h-[220px]'}`}>
+                  <img
+                    src={categoriaImagenes[categoria.nombre] ?? '/product-inventory.svg'}
+                    alt={categoria.nombre}
+                    className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.03]"
+                    loading="lazy"
+                  />
+                </div>
+                <div className={`px-1 pb-1 text-center ${idx < 2 ? 'pt-7' : 'pt-6'}`}>
+                  <h3 className="text-[2rem] font-semibold tracking-[-0.025em] text-[#111827]">{categoria.nombre}</h3>
+                  <p className="mx-auto mt-2 max-w-[34ch] text-[1.02rem] leading-7 text-muted">{categoria.descripcion}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => aplicarCategoria(categoria.nombre)}
+                  className="mt-5 w-full text-center text-[1.08rem] font-semibold text-[#2763cf] transition group-hover:tracking-[0.01em]"
+                >
+                  Ver {categoria.nombre} →
                 </button>
               </article>
             ))}
@@ -153,66 +209,39 @@ export function LandingPage() {
               <p className="text-sm text-muted">Precios en ARS. Sujeto a disponibilidad.</p>
             </div>
 
-            <div className="mb-8 grid gap-4 rounded-2xl border border-border bg-white p-4 shadow-card md:grid-cols-[1fr_auto_auto] md:items-center">
-              <label className="flex items-center gap-2 rounded-xl border border-border bg-panel px-3 py-2">
-                <span className="text-sm text-muted">Buscar</span>
-                <input value={busqueda} onChange={(e) => setBusqueda(e.target.value)} placeholder="Producto o SKU" className="w-full bg-transparent text-sm outline-none placeholder:text-muted" />
-              </label>
+            <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-border bg-white p-4 shadow-card">
+              <div className="flex flex-wrap items-end gap-4">
+                <label className="flex min-w-[min(100%,280px)] flex-1 items-center gap-2 rounded-xl border border-border bg-panel px-3 py-2">
+                  <span className="shrink-0 text-sm text-muted">Buscar</span>
+                  <input value={busqueda} onChange={(e) => setBusqueda(e.target.value)} placeholder="Producto o SKU" className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted" />
+                </label>
 
-              <div ref={categoriaRef} className="relative">
-                <button type="button" onClick={() => setCategoriaAbierta((v) => !v)} className="flex min-w-[210px] items-center justify-between gap-3 rounded-xl border border-border bg-panel px-3 py-2 text-left">
-                  <span className="text-sm text-muted">Categoría</span>
-                  <span className="text-sm font-medium">{filtroCategoria}</span>
-                </button>
-                {categoriaAbierta && (
-                  <div className="absolute left-0 top-[calc(100%+8px)] z-20 w-full rounded-xl border border-border bg-white p-1 shadow-elevated">
-                    {categoriasFiltro.map((categoria) => (
-                      <button
-                        key={categoria}
-                        type="button"
-                        onClick={() => aplicarCategoria(categoria)}
-                        className={`w-full rounded-lg px-3 py-2 text-left text-sm transition ${filtroCategoria === categoria ? 'bg-[#111827] text-white' : 'hover:bg-panel'}`}
-                      >
-                        {categoria}
-                      </button>
-                    ))}
-                  </div>
-                )}
+                <CustomSelect
+                  id="filtro-categoria"
+                  label="Categoría"
+                  value={filtroCategoria}
+                  options={filtroCategoriaOpciones}
+                  onChange={setFiltroCategoria}
+                />
+
+                <CustomSelect
+                  id="filtro-orden"
+                  label="Ordenar"
+                  value={orden}
+                  options={ordenCatalogoOpciones}
+                  onChange={(v) => setOrden(v as OrdenCatalogo)}
+                />
+
+                <label className="flex min-w-[160px] cursor-pointer items-center gap-2 rounded-xl border border-border bg-panel px-3 py-2 text-sm">
+                  <input type="checkbox" checked={soloConStock} onChange={(e) => setSoloConStock(e.target.checked)} className="h-4 w-4 accent-[#0d1420]" />
+                  Solo con stock
+                </label>
               </div>
-
-              <label className="flex items-center gap-2 rounded-xl border border-border bg-panel px-3 py-2 text-sm">
-                <input type="checkbox" checked={soloConStock} onChange={(e) => setSoloConStock(e.target.checked)} className="h-4 w-4 accent-[#0d1420]" />
-                Solo con stock
-              </label>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
               {productosFiltrados.map((item, index) => (
-                <article key={item.sku} className="group rounded-[1.5rem] border border-border bg-white p-5 shadow-card transition duration-500 hover:-translate-y-1 hover:shadow-elevated animate-reveal" style={{ animationDelay: `${index * 90}ms` }}>
-                  <div className="flex h-[320px] items-center justify-center overflow-hidden rounded-2xl border border-border bg-white">
-                    <img src={item.imagenes[0]} alt={item.nombre} className="h-full w-full object-contain p-3 transition duration-500 group-hover:scale-[1.02]" loading="lazy" />
-                  </div>
-                  <div className="mt-5 flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="text-2xl font-semibold leading-tight tracking-[-0.01em]">{item.nombre}</h3>
-                      <p className="mt-1 text-sm text-muted">SKU: {item.sku}</p>
-                    </div>
-                    <p className="rounded-full border border-border px-3 py-1 text-xs font-semibold">Stock {item.stock}</p>
-                  </div>
-                  <div className="mt-4 space-y-1">
-                    <p className="text-2xl font-semibold tracking-[-0.02em]">{item.precio}</p>
-                    <p className="text-sm font-semibold text-accent">{item.transferencia}</p>
-                    <p className="text-sm text-muted">{item.cuotas}</p>
-                  </div>
-                  <div className="mt-5 flex items-center gap-3">
-                    <Link href={`/producto/${item.slug}`} className="rounded-full bg-text px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#1a2330]">
-                      Ver producto
-                    </Link>
-                    <a href={whatsappHref(mensajeConsultaProducto(item.nombre))} target="_blank" rel="noopener noreferrer" className="rounded-full border border-border px-5 py-2 text-sm font-semibold transition hover:bg-panel">
-                      Consultar
-                    </a>
-                  </div>
-                </article>
+                <ProductCard key={item.sku} item={item} className="animate-reveal" animationDelayMs={index * 90} />
               ))}
             </div>
 
@@ -222,20 +251,40 @@ export function LandingPage() {
           </div>
         </section>
 
-        <section id="confianza" className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
-          <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted">Por qué elegirnos</p>
-              <h2 className="mt-3 text-4xl font-semibold leading-tight tracking-[-0.02em] sm:text-5xl">Compra segura, atención real y respaldo postventa.</h2>
+        <section id="confianza" className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
+          <div className="relative overflow-hidden rounded-[2.2rem] border border-border bg-[linear-gradient(180deg,#f9fafb_0%,#ffffff_100%)] p-8 shadow-[0_28px_70px_rgba(15,23,42,0.08)] lg:p-12">
+            <div className="pointer-events-none absolute -right-16 top-[-60px] h-56 w-56 rounded-full bg-black/[0.06] blur-3xl" aria-hidden />
+            <div className="pointer-events-none absolute -left-16 bottom-[-80px] h-56 w-56 rounded-full bg-black/[0.05] blur-3xl" aria-hidden />
+
+            <div className="relative z-10 mb-10 flex flex-col gap-4 lg:mb-12 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-4xl">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted">Por qué elegirnos</p>
+                <h2 className="mt-3 text-4xl font-semibold leading-[1.04] tracking-[-0.024em] sm:text-5xl lg:text-[3.4rem]">
+                  Compra segura, atención real y respaldo postventa.
+                </h2>
+              </div>
+              <p className="max-w-sm text-sm leading-7 text-muted">
+                Operamos con proceso comercial claro, producto original y seguimiento humano en cada etapa de la compra.
+              </p>
             </div>
-          </div>
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {razones.map((item) => (
-              <article key={item.titulo} className="rounded-2xl border border-border bg-white p-6 shadow-card">
-                <h3 className="text-lg font-semibold tracking-[-0.01em]">{item.titulo}</h3>
-                <p className="mt-3 text-sm leading-7 text-muted">{item.descripcion}</p>
-              </article>
-            ))}
+
+            <div className="relative z-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {razones.map((item, index) => (
+                <article
+                  key={item.titulo}
+                  className="group rounded-[1.4rem] border border-border/90 bg-white p-6 shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_44px_rgba(15,23,42,0.11)]"
+                >
+                  <div className="mb-5 flex items-center justify-between">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-panel text-xs font-semibold text-[#273244]">
+                      0{index + 1}
+                    </span>
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#111827]" aria-hidden />
+                  </div>
+                  <h3 className="text-[1.75rem] font-semibold leading-[1.15] tracking-[-0.02em] text-[#0f172a]">{item.titulo}</h3>
+                  <p className="mt-4 text-base leading-8 text-muted">{item.descripcion}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
