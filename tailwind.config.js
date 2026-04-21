@@ -13,15 +13,15 @@ export default {
         accentsoft: 'var(--color-accent-soft)'
       },
       boxShadow: {
-        card: '0 8px 30px rgba(17, 24, 39, 0.06)',
-        elevated: '0 22px 45px rgba(17, 24, 39, 0.12)'
+        card: '0 8px 24px rgba(0, 0, 0, 0.06)',
+        elevated: '0 18px 36px rgba(0, 0, 0, 0.12)'
       },
       borderRadius: {
         card: '1.125rem'
       },
       fontFamily: {
-        display: ['"Fraunces"', 'Georgia', 'serif'],
-        body: ['"Inter"', '"Avenir Next"', 'system-ui', 'sans-serif']
+        display: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"Segoe UI"', 'Inter', 'system-ui', 'sans-serif'],
+        body: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"Segoe UI"', 'Inter', 'system-ui', 'sans-serif']
       },
       animation: {
         reveal: 'reveal 700ms cubic-bezier(0.22, 1, 0.36, 1) both'

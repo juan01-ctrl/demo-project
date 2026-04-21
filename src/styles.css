@@ -1,16 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --color-bg: #f5f6f8;
-  --color-panel: #fbfcfe;
-  --color-text: #0d1420;
-  --color-muted: #566174;
-  --color-border: #d8e0ea;
+  --color-bg: #f5f5f7;
+  --color-panel: #ffffff;
+  --color-text: #1d1d1f;
+  --color-muted: #6e6e73;
+  --color-border: #d2d2d7;
   --color-accent: #0071e3;
   --color-accent-soft: #eaf3ff;
 }
@@ -31,12 +28,10 @@ html {
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at 50% -10%, #ffffff 0%, rgba(255, 255, 255, 0.8) 25%, transparent 55%),
-    linear-gradient(180deg, #f7f9fc 0%, #f2f4f8 100%);
+  background: var(--color-bg);
   color: var(--color-text);
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
-  line-height: 1.65;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Inter, system-ui, sans-serif;
+  line-height: 1.58;
 }
 
 a {

@@ -515,17 +515,17 @@ function LandingPage({ onOpenProduct }: { onOpenProduct: (slug: string) => void 
         </div>
       </div>
 
-      <header className="sticky top-0 z-50 border-b border-border/90 bg-white/95 shadow-[0_1px_0_rgba(15,23,42,0.08)] backdrop-blur-2xl">
+      <header className="sticky top-0 z-50 border-b border-border/80 bg-[rgba(255,255,255,0.82)] shadow-[0_1px_0_rgba(15,23,42,0.06)] backdrop-blur-xl">
         <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 lg:px-10" aria-label="Principal">
           <a href="#inicio" className="text-[17px] font-semibold tracking-[-0.01em] text-[#0f172a]">
             Store Demo AR
           </a>
           <ul className="hidden items-center gap-8 md:flex">
-            <li><a href="#categorias" className="text-sm text-[#334155] transition-colors hover:text-[#0f172a]">Categorías</a></li>
-            <li><a href="#destacados" className="text-sm text-[#334155] transition-colors hover:text-[#0f172a]">Destacados</a></li>
-            <li><a href="#confianza" className="text-sm text-[#334155] transition-colors hover:text-[#0f172a]">Confianza</a></li>
-            <li><a href="#faqs" className="text-sm text-[#334155] transition-colors hover:text-[#0f172a]">FAQs</a></li>
-            <li><a href="#visitanos" className="text-sm text-[#334155] transition-colors hover:text-[#0f172a]">Visitanos</a></li>
+            <li><a href="#categorias" className="text-sm text-[#475569] transition-colors hover:text-[#0f172a]">Categorías</a></li>
+            <li><a href="#destacados" className="text-sm text-[#475569] transition-colors hover:text-[#0f172a]">Destacados</a></li>
+            <li><a href="#confianza" className="text-sm text-[#475569] transition-colors hover:text-[#0f172a]">Confianza</a></li>
+            <li><a href="#faqs" className="text-sm text-[#475569] transition-colors hover:text-[#0f172a]">FAQs</a></li>
+            <li><a href="#visitanos" className="text-sm text-[#475569] transition-colors hover:text-[#0f172a]">Visitanos</a></li>
           </ul>
           <a
             href={whatsappHref(WHATSAPP_MSG_GENERIC)}
@@ -539,17 +539,30 @@ function LandingPage({ onOpenProduct }: { onOpenProduct: (slug: string) => void 
       </header>
 
       <main id="inicio">
-        <section className="relative overflow-hidden border-b border-border/70">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_50%_0%,rgba(0,113,227,0.16),transparent_56%)]" aria-hidden />
-          <div className="mx-auto max-w-7xl px-6 pb-16 pt-20 text-center lg:px-10 lg:pb-24 lg:pt-28">
-            <p className="animate-reveal text-xs font-semibold uppercase tracking-[0.22em] text-muted">Importador Apple en Argentina</p>
-            <h1 className="animate-reveal mt-5 text-5xl font-semibold leading-[1.04] tracking-[-0.03em] sm:text-6xl lg:text-7xl">
-              Importamos Apple original.
+        <section className="relative overflow-hidden border-b border-border/70 bg-white">
+          <div
+            className="pointer-events-none absolute -left-16 top-12 z-0 h-64 w-64 rounded-full bg-black/14 blur-[76px]"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute right-[-40px] top-24 z-0 h-72 w-72 rounded-full bg-black/12 blur-[84px]"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute left-1/2 top-[-90px] z-0 h-64 w-[520px] -translate-x-1/2 rounded-full bg-black/10 blur-[92px]"
+            aria-hidden
+          />
+          <div className="relative z-10 mx-auto max-w-7xl px-6 pb-16 pt-20 text-center lg:px-10 lg:pb-24 lg:pt-28">
+            <p className="animate-reveal inline-flex rounded-full border border-border bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+              Importador Apple en Argentina
+            </p>
+            <h1 className="animate-reveal mt-6 text-5xl font-semibold leading-[1.01] tracking-[-0.035em] sm:text-6xl lg:text-[5.25rem]">
+              Apple original,
               <br className="hidden sm:block" />
-              Vendemos directo, sin intermediarios.
+              al precio que esperabas.
             </h1>
             <p className="animate-reveal mx-auto mt-7 max-w-3xl text-lg leading-8 text-muted sm:text-xl">
-              Stock propio, precios competitivos y atención personalizada para personas, empresas y locales en todo el país.
+              Disponibilidad inmediata, condiciones claras y entrega en todo el país. Comprá directo al importador, sin fricción y con respaldo real.
             </p>
             <div className="animate-reveal mt-10 flex flex-wrap items-center justify-center gap-4">
               <a href="#destacados" className="rounded-full bg-text px-7 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#1a2330]">
@@ -563,6 +576,17 @@ function LandingPage({ onOpenProduct }: { onOpenProduct: (slug: string) => void 
               >
                 Consultar por WhatsApp
               </a>
+            </div>
+            <div className="animate-reveal mt-8 flex flex-wrap items-center justify-center gap-3">
+              <p className="rounded-full border border-border bg-white px-4 py-2 text-xs font-semibold tracking-[0.12em] text-[#334155]">
+                +6.000 CLIENTES
+              </p>
+              <p className="rounded-full border border-border bg-white px-4 py-2 text-xs font-semibold tracking-[0.12em] text-[#334155]">
+                GARANTÍA VERIFICADA
+              </p>
+              <p className="rounded-full border border-border bg-white px-4 py-2 text-xs font-semibold tracking-[0.12em] text-[#334155]">
+                ENVÍOS TODO EL PAÍS
+              </p>
             </div>
           </div>
         </section>
@@ -598,7 +622,7 @@ function LandingPage({ onOpenProduct }: { onOpenProduct: (slug: string) => void 
           </div>
         </section>
 
-        <section id="destacados" className="border-y border-border/70 bg-panel/40 py-24">
+        <section id="destacados" className="border-y border-border/70 bg-[#f7f7f9] py-24">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <div className="mb-9 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -729,7 +753,7 @@ function LandingPage({ onOpenProduct }: { onOpenProduct: (slug: string) => void 
           </div>
         </section>
 
-        <section className="border-y border-border/70 bg-[linear-gradient(180deg,#ffffff_0%,#f7f9fd_100%)] py-20">
+        <section className="border-y border-border/70 bg-white py-20">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -835,7 +859,7 @@ function ProductoPage({ producto, onBack }: { producto: Producto; onBack: () => 
 
   return (
     <div className="min-h-screen bg-bg text-text antialiased">
-      <header className="sticky top-0 z-50 border-b border-border/90 bg-white/96 shadow-[0_1px_0_rgba(15,23,42,0.08)] backdrop-blur-2xl">
+      <header className="sticky top-0 z-50 border-b border-border/80 bg-[rgba(255,255,255,0.82)] shadow-[0_1px_0_rgba(15,23,42,0.06)] backdrop-blur-xl">
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 lg:px-10">
           <button type="button" onClick={onBack} className="rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold transition hover:bg-panel">
             ← Volver al catálogo
