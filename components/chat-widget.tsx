@@ -76,7 +76,7 @@ export function ChatWidget({ pageContext }: { pageContext: string }) {
   }, [messages, loading, abierto]);
 
   return (
-    <div className="fixed bottom-5 right-5 z-[70]">
+    <div className="fixed bottom-3 right-3 z-[70] sm:bottom-5 sm:right-5">
       {abierto ? (
         <div className="w-[350px] overflow-hidden rounded-2xl border border-border bg-white shadow-elevated">
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
@@ -137,7 +137,7 @@ export function ChatWidget({ pageContext }: { pageContext: string }) {
         <button
           type="button"
           onClick={() => setAbierto(true)}
-          className="group relative overflow-hidden rounded-full bg-black px-5 py-3 text-sm font-semibold text-white shadow-elevated transition duration-300 hover:-translate-y-0.5"
+          className="group relative overflow-hidden rounded-full bg-black px-5 py-3 text-sm font-semibold text-white shadow-elevated opacity-[0.88] transition-all duration-300 hover:-translate-y-0.5 hover:opacity-100"
         >
           <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.16),transparent_35%)]" aria-hidden />
           <span className="relative flex items-center gap-2">

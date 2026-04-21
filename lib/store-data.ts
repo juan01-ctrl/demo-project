@@ -302,14 +302,28 @@ export function whatsappHref(message: string) {
   return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
 }
 
-/** Mensaje prellenado para el chat: conversación + contexto de página (API / asistente). */
+/**
+ * Mensaje corto para WhatsApp desde el chat (sin volcar catálogo ni contexto interno).
+ * - Si el usuario escribió algo útil: una línea con esa consulta (recortada).
+ * - Si no escribió nada útil pero está en ficha de producto: una línea tipo “Vi [producto]…”.
+ * - Si no: mismo texto que los botones genéricos del sitio.
+ */
 export function mensajeWhatsAppChatDesdeContexto(ultimaConsultaUsuario: string, pageContext: string): string {
-  const u = ultimaConsultaUsuario.trim().slice(0, 320);
-  const ctx = pageContext.trim().slice(0, 400);
-  const base = u
-    ? `Hola! Escribo desde el chat de la web de ${WHATSAPP_SITE_NAME}. ${u}`
-    : `Hola! Escribo desde el chat de la web de ${WHATSAPP_SITE_NAME} y quiero consultar con ventas.`;
-  return ctx ? `${base}\n\nReferencia: ${ctx}` : base;
+  const u = ultimaConsultaUsuario.replace(/\s+/g, ' ').trim();
+  const shortUser = u.slice(0, 140);
+
+  if (shortUser.length >= 4) {
+    return `Hola! Estaba viendo la web de ${WHATSAPP_SITE_NAME} y quería consultar: ${shortUser}`;
+  }
+
+  const detalleMatch = pageContext.match(/Página actual:\s*detalle de\s*(.+?)(?:\n|$)/);
+  const nombreEnFicha = detalleMatch?.[1]?.trim();
+  if (nombreEnFicha) {
+    const nom = nombreEnFicha.slice(0, 90);
+    return `Hola! Vi ${nom} en la web de ${WHATSAPP_SITE_NAME} y quería consultar.`;
+  }
+
+  return WHATSAPP_MSG_GENERIC;
 }
 
 export function buildPageContext(productoActual?: Producto) {

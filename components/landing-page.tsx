@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
   categorias,
   filtroCategoriaOpciones,
@@ -32,6 +32,29 @@ export function LandingPage() {
   const [filtroCategoria, setFiltroCategoria] = useState('Todas');
   const [soloConStock, setSoloConStock] = useState(false);
   const [orden, setOrden] = useState<OrdenCatalogo>('recomendados');
+  const promoBandRef = useRef<HTMLDivElement | null>(null);
+  const siteHeaderRef = useRef<HTMLElement | null>(null);
+  const [aboveFoldOffsetPx, setAboveFoldOffsetPx] = useState(0);
+
+  useLayoutEffect(() => {
+    const promoEl = promoBandRef.current;
+    const headerEl = siteHeaderRef.current;
+    if (!promoEl || !headerEl) return;
+
+    const measure = () => {
+      setAboveFoldOffsetPx(promoEl.offsetHeight + headerEl.offsetHeight);
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(promoEl);
+    ro.observe(headerEl);
+    window.addEventListener('resize', measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, []);
 
   const productosFiltrados = useMemo(() => {
     const q = busqueda.trim().toLowerCase();
@@ -66,15 +89,57 @@ export function LandingPage() {
 
   return (
     <div className="min-h-screen bg-bg text-text antialiased selection:bg-accent/15">
-      <div className="border-b border-border/70 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-8 gap-y-2 px-6 py-2 text-xs font-medium text-muted lg:px-10">
-          {promos.map((promo) => (
-            <p key={promo}>{promo}</p>
-          ))}
-        </div>
-      </div>
+      <div className="flex min-h-screen flex-col">
+        <div ref={promoBandRef} className="shrink-0 border-b border-border/70 bg-white">
+          <div className="relative w-full py-1.5 md:py-2">
+            <div
+              className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-white to-transparent motion-reduce:hidden sm:w-16"
+              aria-hidden
+            />
+            <div
+              className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-white to-transparent motion-reduce:hidden sm:w-16"
+              aria-hidden
+            />
 
-      <header className="sticky top-0 z-50 border-b border-border/80 bg-[rgba(255,255,255,0.82)] shadow-[0_1px_0_rgba(15,23,42,0.06)] backdrop-blur-xl">
+            <div
+              className="w-full overflow-hidden motion-reduce:hidden"
+              role="region"
+              aria-label="Promociones y beneficios"
+            >
+              <div className="flex w-max animate-marquee items-center will-change-transform hover:[animation-play-state:paused]">
+                {Array.from({ length: 6 }, (_, dup) => (
+                  <div
+                    key={dup}
+                    className="flex shrink-0 items-center gap-8 pr-8 sm:gap-10 sm:pr-10 md:gap-12 md:pr-12"
+                    aria-hidden={dup > 0}
+                  >
+                    {promos.map((promo, i) => (
+                      <p
+                        key={`${dup}-${i}-${promo}`}
+                        className="whitespace-nowrap text-[11px] font-medium leading-snug text-muted sm:text-xs"
+                      >
+                        {promo}
+                      </p>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="hidden flex-wrap items-center justify-center gap-x-6 gap-y-1 px-4 motion-reduce:flex sm:gap-x-8">
+              {promos.map((promo) => (
+                <p key={`static-${promo}`} className="text-center text-[11px] font-medium text-muted sm:text-xs">
+                  {promo}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+
+      <header
+        ref={siteHeaderRef}
+        className="sticky top-0 z-50 shrink-0 border-b border-border/80 bg-[rgba(255,255,255,0.82)] shadow-[0_1px_0_rgba(15,23,42,0.06)] backdrop-blur-xl"
+      >
         <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 lg:px-10" aria-label="Principal">
           <a href="#inicio" className="text-[17px] font-semibold tracking-[-0.01em] text-[#0f172a]">
             Store Demo AR
@@ -97,8 +162,17 @@ export function LandingPage() {
         </nav>
       </header>
 
-      <main id="inicio">
-        <section className="relative overflow-hidden border-b border-border/70 bg-white">
+      <main className="flex min-h-0 flex-1 flex-col">
+        <section
+          id="inicio"
+          className="relative flex min-h-0 flex-1 flex-col justify-center overflow-hidden border-b border-border/70 bg-white"
+          style={{
+            minHeight:
+              aboveFoldOffsetPx > 0
+                ? `max(0px, calc(100vh - ${aboveFoldOffsetPx}px))`
+                : 'calc(100vh - 7rem)'
+          }}
+        >
           <div
             className="pointer-events-none absolute inset-0 z-0"
             style={{
@@ -110,7 +184,7 @@ export function LandingPage() {
           <div className="pointer-events-none absolute -left-14 top-10 z-0 h-56 w-56 rounded-full bg-black/10 blur-[74px]" aria-hidden />
           <div className="pointer-events-none absolute right-[-36px] top-20 z-0 h-64 w-64 rounded-full bg-black/9 blur-[80px]" aria-hidden />
           <div className="pointer-events-none absolute left-1/2 top-[-84px] z-0 h-56 w-[480px] -translate-x-1/2 rounded-full bg-black/8 blur-[90px]" aria-hidden />
-          <div className="relative z-10 mx-auto max-w-7xl px-6 pb-16 pt-20 text-center lg:px-10 lg:pb-24 lg:pt-28">
+          <div className="relative z-10 mx-auto max-w-7xl px-6 py-12 text-center sm:py-14 lg:px-10 lg:py-16">
             <p className="animate-reveal inline-flex rounded-full border border-border bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
               Importador Apple en Argentina
             </p>
@@ -122,24 +196,36 @@ export function LandingPage() {
             <p className="animate-reveal mx-auto mt-7 max-w-3xl text-lg leading-8 text-muted sm:text-xl">
               Disponibilidad inmediata, condiciones claras y entrega en todo el país. Comprá directo al importador, sin fricción y con respaldo real.
             </p>
-            <div className="animate-reveal mt-10 flex flex-wrap items-center justify-center gap-4">
-              <a href="#categorias" className="rounded-full bg-text px-7 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#1a2330]">
+            <div className="animate-reveal mt-10 flex flex-nowrap items-center justify-center gap-2.5 sm:gap-4">
+              <a
+                href="#categorias"
+                className="shrink-0 rounded-full bg-text px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#1a2330] sm:px-8 sm:py-3.5"
+              >
                 Ver productos
               </a>
               <a
                 href={whatsappHref(WHATSAPP_MSG_GENERIC)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-border bg-white px-7 py-3 text-sm font-semibold transition hover:border-accent/40 hover:bg-accent/5"
+                aria-label="Consultar por WhatsApp"
+                className="shrink-0 rounded-full border border-border bg-white px-5 py-3 text-sm font-semibold transition hover:border-accent/40 hover:bg-accent/5 sm:px-8 sm:py-3.5"
               >
-                Consultar por WhatsApp
+                Consultar
               </a>
             </div>
-            <div className="animate-reveal mt-8 flex flex-wrap items-center justify-center gap-3">
-              <p className="rounded-full border border-border bg-white px-4 py-2 text-xs font-semibold tracking-[0.12em] text-[#334155]">+6.000 CLIENTES</p>
-              <p className="rounded-full border border-border bg-white px-4 py-2 text-xs font-semibold tracking-[0.12em] text-[#334155]">GARANTÍA VERIFICADA</p>
-              <p className="rounded-full border border-border bg-white px-4 py-2 text-xs font-semibold tracking-[0.12em] text-[#334155]">ENVÍOS TODO EL PAÍS</p>
-            </div>
+            <p className="animate-reveal mx-auto mt-9 max-w-xl px-2 text-center text-[10px] font-medium leading-snug text-muted/65 [text-wrap:balance] sm:mt-10 sm:max-w-2xl sm:text-[11px]">
+              <span className="inline-flex flex-wrap items-center justify-center gap-x-1 gap-y-0.5 sm:gap-x-1.5">
+                <span>+6.000 clientes</span>
+                <span className="select-none text-muted/35" aria-hidden>
+                  ·
+                </span>
+                <span>Garantía verificada</span>
+                <span className="select-none text-muted/35" aria-hidden>
+                  ·
+                </span>
+                <span>Envíos en todo el país</span>
+              </span>
+            </p>
           </div>
         </section>
 
@@ -339,12 +425,13 @@ export function LandingPage() {
         </section>
       </main>
 
-      <footer className="border-t border-border/80 py-8">
+      <footer className="shrink-0 border-t border-border/80 py-8">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between lg:px-10">
           <p>© {new Date().getFullYear()} Store Demo AR. Todos los derechos reservados.</p>
           <p>Términos · Privacidad · Garantía y cambios</p>
         </div>
       </footer>
+      </div>
     </div>
   );
 }

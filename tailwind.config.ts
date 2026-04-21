@@ -25,12 +25,17 @@ const config: Config = {
         body: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"Segoe UI"', 'Inter', 'system-ui', 'sans-serif']
       },
       animation: {
-        reveal: 'reveal 700ms cubic-bezier(0.22, 1, 0.36, 1) both'
+        reveal: 'reveal 700ms cubic-bezier(0.22, 1, 0.36, 1) both',
+        marquee: 'marquee 40s linear infinite'
       },
       keyframes: {
         reveal: {
           '0%': { opacity: '0', transform: 'translateY(22px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' }
+        },
+        marquee: {
+          '0%': { transform: 'translate3d(0,0,0)' },
+          '100%': { transform: 'translate3d(-50%,0,0)' }
         }
       }
     }
