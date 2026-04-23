@@ -290,7 +290,7 @@ export const faqs = [
   }
 ];
 
-export const WHATSAPP_PHONE = '5491159570977';
+export const WHATSAPP_PHONE = '5491140431125';
 export const WHATSAPP_SITE_NAME = 'Store Demo AR';
 export const WHATSAPP_MSG_GENERIC = `Hola! Estaba viendo la web de ${WHATSAPP_SITE_NAME} y quería hacerles una consulta.`;
 

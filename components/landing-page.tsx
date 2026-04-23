@@ -418,7 +418,7 @@ export function LandingPage() {
                 <p><span className="font-semibold text-text">Dirección:</span> Av. Recta Martinolli 7120, Local 3156</p>
                 <p><span className="font-semibold text-text">Horarios:</span> Lunes a Viernes 10:30 a 13:30 y 16:30 a 19:30</p>
                 <p><span className="font-semibold text-text">Sábados:</span> 10:30 a 13:30</p>
-                <p><span className="font-semibold text-text">Contacto:</span> +54 351 810-6793</p>
+                <p><span className="font-semibold text-text">Contacto:</span> +54 9 11 4043-1125</p>
               </div>
             </article>
           </div>
